@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <style>
+        *{margin: 0;padding: 0;}
+
+
+        .z-dialog-container{
+            position: fixed; left: 0;right: 0; top:0;bottom: 0; background-color: rgba(0,0,0,0.6); display: flex;justify-content: center;align-items: center;
+        }
+        .z-dialog-container .dialog-window{
+            transition: all .3s ease;
+            padding: 1em; border-radius: 10px; background-color: rgba(0,0,0,0.8);
+        }
+        .z-dialog-container .dialog-window .dialog-header{
+            width: 50px; height: 50px;margin: 0 auto;
+        }
+        .z-dialog-container .dialog-window .dialog-header.ok{
+            background: url(./gou.png) no-repeat center center; background-size: 50px;
+        }
+        .z-dialog-container .dialog-window .dialog-header.loading{
+            background: url(./loading.gif) no-repeat center center; background-size: 50px;
+        }
+        .z-dialog-container .dialog-window .dialog-header.warn{
+            background: url(./warn.png) no-repeat center center; background-size: 50px;
+        }
+        .z-dialog-container .dialog-window .dialog-content{
+            padding: 1em 1em 0; color: #fff;line-height: 1.8;text-align: center;
+        }
+
+        .z-dialog-container .dialog-window .dialog-footer{
+            padding: 1em 1em 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .z-dialog-container .dialog-window .dialog-footer button{
+            background-color: rgb(255,255,255,.8); padding: .8em 1.8em; -webkit-appearance: none; border: 0; color: #eee; border-radius: 5px; margin: 0 .3em; text-shadow: #666 1px 1px 0; border: none;
+        }
+        .z-dialog-container .dialog-window .dialog-footer button.green{
+            background-color: rgb(2,202,200,.8);
+        }
+        .z-dialog-container .dialog-window .dialog-footer button.red{
+            background-color: rgb(251,23,50,.8);
+        }
+        button{display: block; width: 100%; padding: 10px; margin: 20px 0; background: green; border-radius: 10px;color: #fff; border: 1px solid #eee;}
+    </style>
+</head>
+<body>
+<!--     <div class="z-dialog-container">
+        <div class="dialog-window">
+            <div class="dialog-header warn"></div>
+            <div class="dialog-content">你确定要删除吗?</div>
+            <div class="dialog-footer">
+                <button>button1</button>
+                <button class="green">button1</button>
+                <button class="red">button1</button>
+            </div>
+        </div>
+    </div> -->
+    <button id="button1">没有任何参数</button>
+    <button id="button2">不带按钮、警告弹窗、2秒关闭</button>
+    <button id="button3">有确认取消</button>
+    <button id="button4">有确认按钮的警告框、点击按钮不关闭</button>
+    <button id="button5">多组合弹窗</button>
+    <button id="button6">确认取消、点击确定弹出loading2s、点击取消关闭</button>
+    <button id="button7">动画效果</button>
+
+</body>
+</html>
+<script src="./zepto.js"></script>
+<script src="dialog.js"></script>
+<script type="text/javascript">
+    $('#button1').tap(function(){
+        var d = $.dialog({
+            maskClose:true
+        });
+    })
+    $('#button2').tap(function(){
+        var d = $.dialog({
+            type:'warn',
+            delay:2000,
+            message:'你大爷还好吗',
+            delayCb:function(){
+                alert(2222)
+            }
+
+        });
+    })
+    $('#button3').tap(function(){
+        var d = $.dialog({
+            message:'你大爷还好吗',
+            buttons:[
+                {type:'red',text:'确定',callback:function(){alert(1)}},
+                {type:'green',text:'取消',callback:function(){alert(2)}},
+            ],
+            delay:2000
+
+        });
+    })
+    $('#button4').tap(function(){
+        var d = $.dialog({
+            type:'warn',
+            message:'你大爷还好吗',
+            buttons:[
+                {type:'red',text:'确定',callback:function(){console.log(3434);return false;}},
+            ],
+        });
+    })
+    $('#button5').tap(function(){
+        var d = $.dialog({
+            message:'你大爷还好吗',
+            // width:100,
+            // height:50,
+            type:'ok',
+            buttons:[
+                {type:'red',text:'确定',callback:function(){alert(1)}},
+                {type:'green',text:'取消',callback:function(){alert(2)}},
+                {type:'green',text:'关闭'},
+            ],
+            // delay:3000,
+            opacity:.4
+        })
+    })
+
+    $('#button6').tap(function(){
+        var d = $.dialog({
+            message:'你大爷还好吗',
+            // width:100,
+            // height:50,
+            type:'ok',
+            buttons:[
+                {type:'red',text:'确定',callback:function(){
+                    $.dialog({
+                        type:'loading',
+                        delay:2000
+                    })
+                    return false
+                }},
+                {type:'green',text:'取消'},
+            ],
+            // delay:3000,
+            opacity:.4
+        })
+    })
+    $('#button7').tap(function(){
+        var d = $.dialog({
+            message:'你大爷还好吗',
+            buttons:[
+                {type:'red',text:'确定',callback:function(){alert(1)}},
+                {type:'green',text:'取消',callback:function(){alert(2)}},
+            ],
+            effect:true
+        });
+    })
+</script>
+
